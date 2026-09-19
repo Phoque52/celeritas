@@ -8,7 +8,7 @@
   "repository": "github:Phoque52/celeritas",
   "homepage": "https://phoque52.github.io/celeritas/",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "start": "node scripts/serve.mjs",
