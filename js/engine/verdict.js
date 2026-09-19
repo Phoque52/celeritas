@@ -29,7 +29,7 @@ export function verdict({ median, jitter, loss }) {
   if (uses.gaming) grade = median <= 30 && jitter <= 5 && loss === 0 ? 'excellent' : 'good';
   else if (uses.calls) grade = 'fair';
   else if (loss > LIMITS.streaming.loss) grade = 'poor';
-  // Quick on average but too uneven for calls, usually from a few lag spikes.
+  // The delay itself is fine for calls; jitter or loss is what rules them out.
   else if (median <= LIMITS.calls.ping) grade = 'unstable';
   else if (uses.streaming) grade = 'slow';
   else grade = 'poor';
