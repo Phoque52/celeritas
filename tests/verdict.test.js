@@ -26,6 +26,14 @@ test('one lost request out of 16 rules out gaming but not calls', () => {
   assert.equal(result.grade, 'fair');
 });
 
+test('a quick connection with a lag spike is unstable, not slow', () => {
+  // 15 samples around 40 ms and one of 472 ms push jitter to 64 ms.
+  const result = verdict({ median: 39, jitter: 64, loss: 0 });
+  assert.equal(result.grade, 'unstable');
+  assert.equal(result.uses.calls, false);
+  assert.equal(result.uses.streaming, true);
+});
+
 test('high ping is only good enough for streaming', () => {
   assert.equal(verdict({ median: 220, jitter: 10, loss: 0 }).grade, 'slow');
 });

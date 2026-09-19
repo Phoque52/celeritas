@@ -15,7 +15,7 @@ export const LIMITS = {
 
 /**
  * @param {{median: number|null, jitter: number|null, loss: number}} stats
- * @returns {{grade: 'excellent'|'good'|'fair'|'slow'|'poor'|'none',
+ * @returns {{grade: 'excellent'|'good'|'fair'|'unstable'|'slow'|'poor'|'none',
  *            uses: {gaming: boolean, calls: boolean, streaming: boolean}}}
  */
 export function verdict({ median, jitter, loss }) {
@@ -25,9 +25,13 @@ export function verdict({ median, jitter, loss }) {
   const fits = (limit) => median <= limit.ping && jitter <= limit.jitter && loss <= limit.loss;
   const uses = { gaming: fits(LIMITS.gaming), calls: fits(LIMITS.calls), streaming: fits(LIMITS.streaming) };
 
-  let grade = 'poor';
+  let grade;
   if (uses.gaming) grade = median <= 30 && jitter <= 5 && loss === 0 ? 'excellent' : 'good';
   else if (uses.calls) grade = 'fair';
+  else if (loss > LIMITS.streaming.loss) grade = 'poor';
+  // Quick on average but too uneven for calls, usually from a few lag spikes.
+  else if (median <= LIMITS.calls.ping) grade = 'unstable';
   else if (uses.streaming) grade = 'slow';
+  else grade = 'poor';
   return { grade, uses };
 }
