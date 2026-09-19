@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Celeritas</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      font-family: 'EB Garamond', serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90%;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 2px;
+      background-color: #ffffff10;
+      color: wheat;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: 'EB Garamond', serif;
+    }
+    button:hover {
+      background-color: #ffffff20;
+    }
+
+    .globe {
+    width: 300px;
+    }
+
+    .title {
+      color: wheat;
+    }
+
+    #pingSonucu {
+      color: wheat;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="main">
+  <p class="title">Celeritas by Phoque</p>
+  <img src="img/globe.gif" class="globe">
+  <button onclick="pingTest()">Ping Gönder</button>
+  <div id="pingSonucu">Ping bekleniyor...</div>
+</div>
+
+<script>
+  function pingTest() {
+    const img = new Image();
+    const start = performance.now();
+
+    img.onload = () => {
+      const end = performance.now();
+      const ping = Math.round(end - start);
+      document.getElementById('pingSonucu').innerText = `Ping: ${ping} ms`;
+    };
+
+    img.onerror = () => {
+      document.getElementById('pingSonucu').innerText = "Ping ölçülemedi";
+    };
+
+    img.src = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_92x30dp.png?" + new Date().getTime();
+  }
+</script>
+
+</body>
+</html>
