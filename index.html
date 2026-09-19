@@ -55,7 +55,11 @@
 
 <div class="main">
   <p class="title">Celeritas by Phoque</p>
-  <img src="img/globe.gif" class="globe">
+  <picture>
+    <source srcset="img/globe-still.webp" media="(prefers-reduced-motion: reduce)">
+    <source srcset="img/globe.avif" type="image/avif">
+    <img src="img/globe-still.webp" class="globe" width="300" height="300" alt="">
+  </picture>
   <button onclick="pingTest()">Ping Gönder</button>
   <div id="pingSonucu">Ping bekleniyor...</div>
 </div>
