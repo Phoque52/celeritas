@@ -1,0 +1,505 @@
+/* Celeritas: wheat on black, set in EB Garamond. */
+
+:root {
+  --bg: #000;
+  --ink: #f5deb3; /* wheat */
+  --ink-2: rgb(245 222 179 / 0.78);
+  --ink-3: rgb(245 222 179 / 0.6); /* muted text, 5.8:1 on black */
+  --line: rgb(245 222 179 / 0.2);
+  --bar: rgb(245 222 179 / 0.38);
+  --fill: #ffffff10;
+  --fill-hover: #ffffff20;
+  --serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  font-variant-numeric: lining-nums;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.stage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: max(24px, 6vh) 16px 32px;
+}
+
+.brand {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* The globe, with a sonar ring for each answered request. */
+
+.globe {
+  position: relative;
+  width: min(300px, 72vw, 38vh);
+  aspect-ratio: 1;
+}
+
+.globe img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ring {
+  position: absolute;
+  inset: 5%; /* the Earth's edge inside the image */
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sonar 1.3s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+}
+
+@keyframes sonar {
+  from {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.32);
+  }
+}
+
+/* Buttons */
+
+.primary {
+  min-width: 9.5em;
+  margin-top: 12px;
+  padding: 10px 24px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--fill);
+  color: var(--ink);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--fill-hover);
+}
+
+.primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.quiet {
+  padding: 2px;
+  border: 0;
+  background: none;
+  color: var(--ink-3);
+  font-size: 16px;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.quiet:hover {
+  color: var(--ink);
+}
+
+.hint {
+  margin: 8px 0 0;
+  color: var(--ink-3);
+  font-size: 15px;
+}
+
+@media (hover: none) {
+  .hint {
+    display: none;
+  }
+}
+
+/* Result */
+
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.reading {
+  margin: 0;
+  font-size: clamp(64px, 17vw, 92px);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.reading .unit {
+  margin-left: 0.12em;
+  color: var(--ink-2);
+  font-size: 0.3em;
+  letter-spacing: 0;
+}
+
+/* Dimmed while the number is still settling. */
+.reading.is-live .value {
+  color: var(--ink-2);
+}
+
+.note {
+  margin: 6px 0 0;
+  color: var(--ink-3);
+  font-size: 16px;
+}
+
+/* With no number to show, the note is the headline, as in the original. */
+.reading[hidden] + .note {
+  max-width: 24em;
+  margin-top: 0;
+  color: var(--ink);
+  font-size: 24px;
+}
+
+.stats {
+  margin: 10px 0 0;
+  color: var(--ink-2);
+  font-size: 17px;
+}
+
+/* The top margin leaves room for the hover label, so it never covers the stats. */
+.spark {
+  position: relative;
+  width: min(240px, 72vw);
+  margin: 26px 0 0;
+}
+
+.spark:focus-visible {
+  outline-offset: 6px;
+}
+
+.spark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.spark-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.spark-median {
+  stroke: var(--line);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.spark-lost {
+  stroke: var(--ink-3);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.spark-cross {
+  stroke: var(--ink-3);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.spark-dot {
+  fill: var(--ink);
+  stroke: var(--bg);
+  stroke-width: 2px;
+}
+
+.spark-tip {
+  position: absolute;
+  bottom: 100%;
+  margin: 0 0 2px;
+  padding: 0 6px;
+  transform: translateX(-50%);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.verdict {
+  max-width: 28em;
+  margin: 16px 0 0;
+  font-size: 19px;
+  font-style: italic;
+  text-wrap: balance;
+}
+
+#copy {
+  margin-top: 8px;
+}
+
+/* Around the world */
+
+.world {
+  width: min(600px, 100%);
+  margin-top: 44px;
+}
+
+.world h2 {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 18px;
+  font-variant-caps: all-small-caps;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.world-note {
+  margin: 0 0 14px;
+  color: var(--ink-3);
+  font-size: 15px;
+  text-align: center;
+}
+
+.world-list {
+  display: grid;
+  gap: 0 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .world-list {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(6, auto);
+    grid-auto-flow: column;
+  }
+}
+
+.region {
+  display: grid;
+  grid-template-columns: 6.5em minmax(0, 1fr);
+  align-items: center;
+  min-height: 30px;
+  font-size: 16px;
+}
+
+.city {
+  overflow: hidden;
+  color: var(--ink-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* One scale for every bar, all growing from the same edge. */
+.bar {
+  flex: none;
+  width: calc(var(--share, 0) * (100% - 4.5em));
+  height: 6px;
+  border-radius: 0 3px 3px 0;
+  background: var(--bar);
+  transition: width 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.ms {
+  color: var(--ink-2);
+  font-size: 15px;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.region[data-state='failed'] .ms {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.region[data-state='pending'] .ms::after {
+  content: '···';
+  color: var(--ink-3);
+  animation: waiting 1.2s ease-in-out infinite;
+}
+
+@keyframes waiting {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.region.is-fastest .bar {
+  background: var(--ink);
+}
+
+.region.is-fastest .city,
+.region.is-fastest .ms {
+  color: var(--ink);
+}
+
+/* Footer and dialog */
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 10px;
+  padding: 16px 16px 24px;
+  color: var(--ink-3);
+  font-size: 15px;
+}
+
+.foot .quiet {
+  font-size: 15px;
+}
+
+.sep {
+  color: var(--line);
+}
+
+.languages {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.languages button {
+  padding: 2px 4px;
+  border: 0;
+  background: none;
+  color: var(--ink-3);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.languages button:hover,
+.languages button[aria-pressed='true'] {
+  color: var(--ink);
+}
+
+.about {
+  width: min(34rem, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.about::backdrop {
+  background: rgb(0 0 0 / 0.75);
+}
+
+.about-body {
+  padding: 28px 28px 24px;
+}
+
+.about h2 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.about p {
+  margin: 0 0 12px;
+  color: var(--ink-2);
+  font-size: 17px;
+}
+
+.about form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.noscript {
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+
+  .region[data-state='pending'] .ms::after {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .bar,
+  .region.is-fastest .bar {
+    background: CanvasText;
+  }
+
+  .spark-dot {
+    fill: CanvasText;
+  }
+}

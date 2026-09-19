@@ -11,6 +11,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "start": "node scripts/serve.mjs",
     "test": "node --test",
     "update-colos": "node scripts/update-colos.mjs"
   }

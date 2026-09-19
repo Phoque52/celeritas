@@ -1,87 +1,98 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Celeritas</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: black;
-      font-family: 'EB Garamond', serif;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 90%;
-      padding: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 2px;
-      background-color: #ffffff10;
-      color: wheat;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-family: 'EB Garamond', serif;
-    }
-    button:hover {
-      background-color: #ffffff20;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celeritas — a minimalist ping test</title>
+  <meta name="description" content="Celeritas is a sleek and minimalist ping tester. Measure your ping, jitter and packet loss, then see how far the rest of the world is.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://phoque52.github.io/celeritas/">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 
-    .globe {
-    width: 300px;
-    }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&display=swap">
+  <link rel="stylesheet" href="css/style.css">
 
-    .title {
-      color: wheat;
-    }
-
-    #pingSonucu {
-      color: wheat;
-      font-size: 24px;
-      margin-top: 20px;
-    }
-  </style>
+  <link rel="modulepreload" href="js/ui/app.js">
+  <link rel="modulepreload" href="js/ui/sparkline.js">
+  <link rel="modulepreload" href="js/ui/world-view.js">
+  <link rel="modulepreload" href="js/engine/measure.js">
+  <link rel="modulepreload" href="js/engine/probe.js">
+  <link rel="modulepreload" href="js/engine/stats.js">
+  <link rel="modulepreload" href="js/engine/verdict.js">
+  <link rel="modulepreload" href="js/engine/world.js">
+  <link rel="modulepreload" href="js/data/targets.js">
+  <link rel="modulepreload" href="js/i18n.js">
+  <link rel="modulepreload" href="js/history.js">
+  <script type="module" src="js/main.js"></script>
 </head>
-<body>
+<body data-phase="idle">
+  <main class="stage">
+    <h1 class="brand">Celeritas by Phoque</h1>
 
-<div class="main">
-  <p class="title">Celeritas by Phoque</p>
-  <picture>
-    <source srcset="img/globe-still.webp" media="(prefers-reduced-motion: reduce)">
-    <source srcset="img/globe.avif" type="image/avif">
-    <img src="img/globe-still.webp" class="globe" width="300" height="300" alt="">
-  </picture>
-  <button onclick="pingTest()">Ping Gönder</button>
-  <div id="pingSonucu">Ping bekleniyor...</div>
-</div>
+    <div class="globe" id="globe">
+      <picture>
+        <source srcset="img/globe-still.webp" media="(prefers-reduced-motion: reduce)">
+        <source srcset="img/globe.avif" type="image/avif">
+        <img src="img/globe-still.webp" width="300" height="300" alt="" fetchpriority="high">
+      </picture>
+    </div>
 
-<script>
-  function pingTest() {
-    const img = new Image();
-    const start = performance.now();
+    <button type="button" class="primary" id="run">Ping</button>
+    <p class="hint" id="hint" data-i18n="hint.keys">or press Space</p>
 
-    img.onload = () => {
-      const end = performance.now();
-      const ping = Math.round(end - start);
-      document.getElementById('pingSonucu').innerText = `Ping: ${ping} ms`;
-    };
+    <section class="result">
+      <p class="reading" id="reading" hidden><span class="value" id="value">—</span><span class="unit">ms</span></p>
+      <p class="note" id="note">Waiting for ping…</p>
+      <p class="stats" id="stats" hidden></p>
+      <figure class="spark" id="spark" tabindex="0" hidden>
+        <svg aria-hidden="true" focusable="false"></svg>
+        <p class="spark-tip" aria-hidden="true" hidden></p>
+        <figcaption class="visually-hidden">
+          <span class="spark-summary"></span>
+          <ol class="spark-data"></ol>
+        </figcaption>
+      </figure>
+      <p class="verdict" id="verdict" hidden></p>
+      <button type="button" class="quiet" id="copy" hidden>Copy result</button>
+    </section>
 
-    img.onerror = () => {
-      document.getElementById('pingSonucu').innerText = "Ping ölçülemedi";
-    };
+    <section class="world" id="world" aria-labelledby="world-title" hidden>
+      <h2 id="world-title" data-i18n="world.title">Around the world</h2>
+      <p class="world-note" data-i18n="world.note">AWS data centers, best of 3 pings</p>
+      <ol class="world-list" id="world-list"></ol>
+    </section>
 
-    img.src = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_92x30dp.png?" + new Date().getTime();
-  }
-</script>
+    <p class="visually-hidden" id="announcer" role="status" aria-live="polite"></p>
+  </main>
 
+  <footer class="foot">
+    <button type="button" class="quiet" id="about-open" data-i18n="about.open">How it works</button>
+    <span class="sep" aria-hidden="true">·</span>
+    <a class="quiet" href="https://github.com/Phoque52/celeritas" data-i18n="footer.source">Source code</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="languages" id="languages" role="group" aria-label="Language">
+      <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+      <button type="button" data-lang="tr" lang="tr" aria-label="Türkçe" aria-pressed="false">TR</button>
+    </span>
+  </footer>
+
+  <dialog class="about" id="about" aria-labelledby="about-title">
+    <div class="about-body">
+      <h2 id="about-title" data-i18n="about.title">How it works</h2>
+      <p data-i18n="about.p1">Browsers can’t send real ping packets, so Celeritas times tiny HTTPS requests instead.</p>
+      <p data-i18n="about.p2">It first opens a connection to the nearest Cloudflare data center, so the one-time setup (DNS, TCP and TLS) isn’t counted. Then it sends 16 requests, one after another, and reads each round trip from your browser’s own network timing.</p>
+      <p data-i18n="about.p3">Ping is the median round trip. Jitter is how much one round trip differs from the next, on average. Loss is the share of requests with no reply within 2 seconds.</p>
+      <p data-i18n="about.p4">The world list does the same with 12 AWS data centers, three requests each, and shows the fastest. Celeritas has no server of its own and collects nothing: your past results stay in this browser, and the servers it pings only see an ordinary web request.</p>
+      <form method="dialog">
+        <button class="primary" data-i18n="about.close">Close</button>
+      </form>
+    </div>
+  </dialog>
+
+  <noscript><p class="noscript">Celeritas needs JavaScript to measure your connection.</p></noscript>
 </body>
 </html>

@@ -39,7 +39,7 @@ export const MESSAGES = {
     'verdict.none': 'No replies — your connection may be down.',
 
     'world.title': 'Around the world',
-    'world.note': 'AWS data centers, median of 3 pings',
+    'world.note': 'AWS data centers, best of 3 pings',
     'world.noReply': 'no reply',
     'region.us-west-1': 'California',
     'region.us-east-1': 'Virginia',
@@ -69,7 +69,7 @@ export const MESSAGES = {
     'about.p3':
       'Ping is the median round trip. Jitter is how much one round trip differs from the next, on average. Loss is the share of requests with no reply within 2 seconds.',
     'about.p4':
-      'The world list does the same with 12 AWS data centers, three requests each. Celeritas has no server of its own and collects nothing: your past results stay in this browser, and the servers it pings only see an ordinary web request.',
+      'The world list does the same with 12 AWS data centers, three requests each, and shows the fastest. Celeritas has no server of its own and collects nothing: your past results stay in this browser, and the servers it pings only see an ordinary web request.',
     'about.close': 'Close',
     'footer.source': 'Source code',
   },
@@ -110,7 +110,7 @@ export const MESSAGES = {
     'verdict.none': 'Yanıt yok — bağlantınız kesilmiş olabilir.',
 
     'world.title': 'Dünya genelinde',
-    'world.note': 'AWS veri merkezleri, 3 pingin ortancası',
+    'world.note': 'AWS veri merkezleri, 3 pingin en iyisi',
     'world.noReply': 'yanıt yok',
     'region.us-west-1': 'Kaliforniya',
     'region.us-east-1': 'Virginia',
@@ -140,7 +140,7 @@ export const MESSAGES = {
     'about.p3':
       'Ping, gidiş-dönüş sürelerinin ortancasıdır. Jitter, bir ölçümün bir sonrakinden ortalama ne kadar farklı olduğunu gösterir. Kayıp, 2 saniye içinde yanıt alınamayan isteklerin oranıdır.',
     'about.p4':
-      'Dünya listesi aynı ölçümü 12 AWS veri merkeziyle, her birine üç istek göndererek yapar. Celeritas’ın kendi sunucusu yoktur ve hiçbir veri toplamaz: geçmiş sonuçlarınız bu tarayıcıda kalır, ping atılan sunucular ise yalnızca sıradan bir web isteği görür.',
+      'Dünya listesi aynı ölçümü 12 AWS veri merkeziyle, her birine üç istek göndererek yapar ve en hızlısını gösterir. Celeritas’ın kendi sunucusu yoktur ve hiçbir veri toplamaz: geçmiş sonuçlarınız bu tarayıcıda kalır, ping atılan sunucular ise yalnızca sıradan bir web isteği görür.',
     'about.close': 'Kapat',
     'footer.source': 'Kaynak kod',
   },
