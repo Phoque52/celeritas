@@ -1,0 +1,18 @@
+{
+  "name": "celeritas",
+  "version": "2.0.0",
+  "description": "A sleek and minimalist ping tester that runs in your browser.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "repository": "github:Phoque52/celeritas",
+  "homepage": "https://phoque52.github.io/celeritas/",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test",
+    "update-colos": "node scripts/update-colos.mjs"
+  }
+}

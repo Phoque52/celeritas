@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celeritas — a minimalist ping test</title>
+  <meta name="description" content="Celeritas is a sleek and minimalist ping tester. Measure your ping, jitter and packet loss, then see how far the rest of the world is.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://phoque52.github.io/celeritas/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Celeritas">
+  <meta property="og:description" content="A sleek, minimalist ping test: ping, jitter and packet loss, then latency to 12 regions around the world.">
+  <meta property="og:url" content="https://phoque52.github.io/celeritas/">
+  <meta property="og:image" content="https://phoque52.github.io/celeritas/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A globe beside the word Celeritas">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="modulepreload" href="js/ui/app.js">
+  <link rel="modulepreload" href="js/ui/sparkline.js">
+  <link rel="modulepreload" href="js/ui/world-view.js">
+  <link rel="modulepreload" href="js/engine/measure.js">
+  <link rel="modulepreload" href="js/engine/probe.js">
+  <link rel="modulepreload" href="js/engine/stats.js">
+  <link rel="modulepreload" href="js/engine/verdict.js">
+  <link rel="modulepreload" href="js/engine/world.js">
+  <link rel="modulepreload" href="js/data/targets.js">
+  <link rel="modulepreload" href="js/i18n.js">
+  <link rel="modulepreload" href="js/history.js">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body data-phase="idle">
+  <main class="stage">
+    <h1 class="brand">Celeritas by Phoque</h1>
+
+    <div class="globe" id="globe">
+      <picture>
+        <source srcset="img/globe-still.webp" media="(prefers-reduced-motion: reduce)">
+        <source srcset="img/globe.avif" type="image/avif">
+        <img src="img/globe-still.webp" width="300" height="300" alt="" fetchpriority="high">
+      </picture>
+    </div>
+
+    <button type="button" class="primary" id="run">Ping</button>
+    <p class="hint" id="hint" data-i18n="hint.keys">or press Space</p>
+
+    <section class="result">
+      <p class="reading" id="reading" hidden><span class="value" id="value">—</span><span class="unit">ms</span></p>
+      <p class="note" id="note">Waiting for ping…</p>
+      <p class="stats" id="stats" hidden></p>
+      <figure class="spark" id="spark" tabindex="0" hidden>
+        <svg aria-hidden="true" focusable="false"></svg>
+        <p class="spark-tip" aria-hidden="true" hidden></p>
+        <figcaption class="visually-hidden">
+          <span class="spark-summary"></span>
+          <ol class="spark-data"></ol>
+        </figcaption>
+      </figure>
+      <p class="verdict" id="verdict" hidden></p>
+      <button type="button" class="quiet" id="copy" hidden>Copy result</button>
+    </section>
+
+    <section class="world" id="world" aria-labelledby="world-title" hidden>
+      <h2 id="world-title" data-i18n="world.title">Around the world</h2>
+      <p class="world-note" data-i18n="world.note">AWS data centers, best of 3 pings</p>
+      <ol class="world-list" id="world-list"></ol>
+    </section>
+
+    <p class="visually-hidden" id="announcer" role="status" aria-live="polite"></p>
+  </main>
+
+  <footer class="foot">
+    <button type="button" class="quiet" id="about-open" data-i18n="about.open">How it works</button>
+    <span class="sep" aria-hidden="true">·</span>
+    <a class="quiet" href="https://github.com/Phoque52/celeritas" data-i18n="footer.source">Source code</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="languages" id="languages" role="group" aria-label="Language">
+      <button type="button" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
+      <button type="button" data-lang="tr" lang="tr" aria-label="Türkçe" aria-pressed="false">TR</button>
+    </span>
+  </footer>
+
+  <dialog class="about" id="about" aria-labelledby="about-title">
+    <div class="about-body">
+      <h2 id="about-title" data-i18n="about.title">How it works</h2>
+      <p data-i18n="about.p1">Browsers can’t send real ping packets, so Celeritas times tiny HTTPS requests instead.</p>
+      <p data-i18n="about.p2">It first opens a connection to the nearest Cloudflare data center, so the one-time setup (DNS, TCP and TLS) isn’t counted. Then it sends 16 requests, one after another, and reads each round trip from your browser’s own network timing.</p>
+      <p data-i18n="about.p3">Ping is the median round trip. Jitter is how much one round trip differs from the next, on average. Loss is the share of requests with no reply within 2 seconds.</p>
+      <p data-i18n="about.p4">The world list does the same with 12 AWS data centers, three requests each, and shows the fastest. Celeritas has no server of its own and collects nothing: your past results stay in this browser, and the servers it pings only see an ordinary web request.</p>
+      <form method="dialog">
+        <button class="primary" data-i18n="about.close">Close</button>
+      </form>
+    </div>
+  </dialog>
+
+  <noscript><p class="noscript">Celeritas needs JavaScript to measure your connection.</p></noscript>
+</body>
+</html>
