@@ -52,7 +52,7 @@ test('durations are whole milliseconds in the local format', () => {
   assert.equal(en.ms(42.4), '42');
   assert.equal(en.ms(0.3), '<1');
   assert.equal(en.ms(0), '0');
-  assert.equal(en.ms(null), '—');
+  assert.equal(en.ms(null), '-');
   assert.equal(en.ms(1234), '1,234');
   assert.equal(tr.ms(1234), '1.234');
 });

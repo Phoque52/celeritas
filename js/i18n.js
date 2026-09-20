@@ -4,7 +4,7 @@
  */
 export const MESSAGES = {
   en: {
-    'page.title': 'Celeritas — a minimalist ping test',
+    'page.title': 'Celeritas: a minimalist ping test',
     'lang.label': 'Language',
 
     'action.start': 'Ping',
@@ -30,13 +30,13 @@ export const MESSAGES = {
     'delta.slower': '{value} ms slower than last time',
     'delta.same': 'Same as last time',
 
-    'verdict.excellent': 'Excellent — as quick as connections get.',
-    'verdict.good': 'Good — smooth for gaming, video calls and streaming.',
-    'verdict.fair': 'Fair — fine for calls and streaming; fast games may feel laggy.',
-    'verdict.unstable': 'Unstable — the delay keeps jumping; calls and games may stutter.',
-    'verdict.slow': 'Slow — fine for browsing and streaming, but calls and games will lag.',
-    'verdict.poor': 'Poor — expect lag and dropouts.',
-    'verdict.none': 'No replies — your connection may be down.',
+    'verdict.excellent': 'Excellent: as quick as connections get.',
+    'verdict.good': 'Good: smooth for gaming, video calls and streaming.',
+    'verdict.fair': 'Fair: fine for calls and streaming; fast games may feel laggy.',
+    'verdict.unstable': 'Unstable: the delay keeps jumping; calls and games may stutter.',
+    'verdict.slow': 'Slow: fine for browsing and streaming, but calls and games will lag.',
+    'verdict.poor': 'Poor: expect lag and dropouts.',
+    'verdict.none': 'No replies: your connection may be down.',
 
     'world.title': 'Around the world',
     'world.note': 'AWS data centers, best of 3 pings',
@@ -75,7 +75,7 @@ export const MESSAGES = {
   },
 
   tr: {
-    'page.title': 'Celeritas — minimalist ping testi',
+    'page.title': 'Celeritas: minimalist ping testi',
     'lang.label': 'Dil',
 
     'action.start': 'Ping Gönder',
@@ -101,13 +101,13 @@ export const MESSAGES = {
     'delta.slower': 'Geçen seferden {value} ms daha yavaş',
     'delta.same': 'Geçen seferle aynı',
 
-    'verdict.excellent': 'Mükemmel — bağlantı bundan hızlı olmaz.',
-    'verdict.good': 'İyi — oyun, görüntülü görüşme ve yayın için akıcı.',
-    'verdict.fair': 'Orta — görüşme ve yayın için yeterli; hızlı oyunlarda gecikme hissedilebilir.',
-    'verdict.unstable': 'Dengesiz — gecikme sürekli dalgalanıyor; görüşme ve oyunlarda takılmalar olabilir.',
-    'verdict.slow': 'Yavaş — gezinme ve yayın için yeterli; görüşme ve oyunlarda gecikme olur.',
-    'verdict.poor': 'Zayıf — gecikme ve kopmalar beklenebilir.',
-    'verdict.none': 'Yanıt yok — bağlantınız kesilmiş olabilir.',
+    'verdict.excellent': 'Mükemmel: bağlantı bundan hızlı olmaz.',
+    'verdict.good': 'İyi: oyun, görüntülü görüşme ve yayın için akıcı.',
+    'verdict.fair': 'Orta: görüşme ve yayın için yeterli; hızlı oyunlarda gecikme hissedilebilir.',
+    'verdict.unstable': 'Dengesiz: gecikme sürekli dalgalanıyor; görüşme ve oyunlarda takılmalar olabilir.',
+    'verdict.slow': 'Yavaş: gezinme ve yayın için yeterli; görüşme ve oyunlarda gecikme olur.',
+    'verdict.poor': 'Zayıf: gecikme ve kopmalar beklenebilir.',
+    'verdict.none': 'Yanıt yok: bağlantınız kesilmiş olabilir.',
 
     'world.title': 'Dünya genelinde',
     'world.note': 'AWS veri merkezleri, 3 pingin en iyisi',
@@ -125,7 +125,7 @@ export const MESSAGES = {
     'region.ap-northeast-1': 'Tokyo',
     'region.ap-southeast-2': 'Sidney',
 
-    'chart.label': '{count} isteğin gidiş-dönüş süresi, {min}–{max} ms',
+    'chart.label': '{count} isteğin gidiş-dönüş süresi, {min}-{max} ms',
     'chart.sample': '{index}. istek: {value} ms',
     'chart.lost': '{index}. istek: yanıt yok',
 
@@ -170,9 +170,9 @@ export function createI18n(lang) {
       const template = messages[key] ?? key;
       return template.replace(/\{(\w+)\}/g, (match, name) => (name in values ? String(values[name]) : match));
     },
-    /** A duration in whole milliseconds; "<1" for tiny values and "—" when missing. */
+    /** A duration in whole milliseconds; "<1" for tiny values and "-" when missing. */
     ms(value) {
-      if (value == null || !Number.isFinite(value)) return '—';
+      if (value == null || !Number.isFinite(value)) return '-';
       if (value > 0 && value < 1) return '<1';
       return number.format(Math.round(value));
     },

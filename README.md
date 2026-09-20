@@ -7,9 +7,9 @@ A sleek and minimalist ping test that runs in your browser. It measures ping, ji
 [![Tests](https://github.com/Phoque52/celeritas/actions/workflows/tests.yml/badge.svg)](https://github.com/Phoque52/celeritas/actions/workflows/tests.yml)
 
 <p align="center">
-  <img src="docs/screenshot-desktop.png" alt="Celeritas on a desktop: a 46 ms ping with two lag spikes in the chart, rated unstable, and latency to 12 world regions" width="497">
+  <img src="docs/screenshot-desktop.png" alt="Celeritas on a desktop: a 40 ms ping with 25 ms jitter, rated fair, and latency to 12 world regions" width="497">
   &nbsp;
-  <img src="docs/screenshot-mobile.png" alt="Celeritas on a phone: a 42 ms ping with 6 ms jitter, rated good" width="190">
+  <img src="docs/screenshot-mobile.png" alt="Celeritas on a phone: a 63 ms ping with 24 ms jitter, rated fair" width="190">
 </p>
 
 ## Features
